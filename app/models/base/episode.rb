@@ -13,6 +13,7 @@ module Base
     field :ppv, type: Boolean, default: false
     field :content_type, type: String
     field :stored_at, type: Date
+    field :last_updated_at, type: Date
 
     belongs_to :series, index: true
 
@@ -22,6 +23,7 @@ module Base
     index({ caption: 1 }, { background: true })
     index({ content_type: 1 }, { background: true })
     index({ stored_at: -1 }, { background: true })
+    index({ last_updated_at: -1 }, { background: true })
     index({ _type: 1, episode_number: 1 }, { background: true })
     index({ _type: 1, season_number: 1 }, { background: true })
     index({ _type: 1, identifier: 1 }, { background: true, unique: true })
@@ -29,6 +31,7 @@ module Base
     index({ _type: 1, caption: 1 }, { background: true })
     index({ _type: 1, content_type: 1 }, { background: true })
     index({ _type: 1, stored_at: -1 }, { background: true })
+    index({ _type: 1, last_updated_at: -1 }, { background: true })
 
     validates_presence_of :identifier
     validates_presence_of :title
