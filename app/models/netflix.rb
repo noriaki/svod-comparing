@@ -1,6 +1,5 @@
 
 
-
 module Netflix
   @@id = Rails.application.secrets.accounts["netflix"]["id"]
   @@pw = Rails.application.secrets.accounts["netflix"]["pw"]
@@ -38,6 +37,14 @@ module Netflix
       url = page.current_url
       Rails.logger.debug("[#{self.class}] Logged-in: #{url}")
       url
+    end
+
+    def crawl_contents_and_save
+      crawl_contents_and_save!(false)
+    end
+
+    def crawl_contents_and_save!(force=true)
+      binding.pry
     end
 
     private
