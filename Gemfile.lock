@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/noriaki/mongoid-magic-counter-cache.git
+  revision: ced05ee0adc4009ae0bd5be490c4aa6e654662a3
+  specs:
+    mongoid_magic_counter_cache (1.1.1)
+      mongoid
+      rake
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -46,6 +54,15 @@ GEM
     bson (4.0.0)
     builder (3.2.2)
     byebug (8.2.1)
+    capybara (2.5.0)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
+    capybara-webkit (1.7.1)
+      capybara (>= 2.3.0, < 2.6.0)
+      json
     coderay (1.1.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -68,6 +85,7 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
+    headless (2.2.0)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
       haml (~> 4.0.0)
@@ -98,6 +116,9 @@ GEM
       mongo (~> 2.1)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
+    mongoid-versioning (1.2.0)
+      activesupport (~> 4.0)
+      mongoid (>= 4.0.0, <= 6.0.0)
     multi_json (1.11.2)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
@@ -135,7 +156,6 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
-    rails_apps_pages (0.6.4)
     rails_layout (1.0.29)
     railties (4.2.5)
       actionpack (= 4.2.5)
@@ -182,6 +202,8 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
@@ -189,17 +211,21 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   byebug
+  capybara
+  capybara-webkit
   coffee-rails (~> 4.1.0)
   haml-rails
+  headless
   html2haml
   jbuilder (~> 2.0)
   jquery-rails
   mongoid
+  mongoid-versioning
+  mongoid_magic_counter_cache!
   pry-rails
   pry-rescue
   quiet_assets
   rails (= 4.2.5)
-  rails_apps_pages
   rails_layout
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
