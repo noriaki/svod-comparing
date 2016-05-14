@@ -17,6 +17,9 @@ group :development do
 end
 gem 'haml-rails'
 gem 'mongoid'
+gem 'mongoid-versioning'
+gem 'mongoid_magic_counter_cache', github: 'noriaki/mongoid-magic-counter-cache'
+
 group :development do
   gem 'better_errors'
   gem 'html2haml'
@@ -27,3 +30,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-rescue'
 end
+
+gem "headless"
+gem "capybara"
+gem "capybara-webkit"
