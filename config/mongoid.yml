@@ -135,3 +135,9 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+production:
+  clients:
+    default:
+      database: compare_hulu_netflix_dtv_production
+      hosts:
+        - localhost:27017
