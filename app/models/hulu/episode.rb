@@ -41,10 +41,16 @@ module Hulu
           show = data[:show]
           episode.series ||= Series.where(identifier: show[:canonical_name]).first_or_initialize
           episode.series.build_by_api(show, data[:company])
+          if episode.new_record?
+            data[:versionning_date].tap do |today|
+              episode.stored_at = today
+              episode.series.stored_at = today
+            end
+          end
         end
         data[:versionning_date].tap do |today|
-          episode.stored_at = today
-          episode.series.stored_at = today
+          episode.last_updated_at = today
+          episode.series.last_updated_at = today
         end
         episode.series.save!
         episode.save!
