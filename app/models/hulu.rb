@@ -98,6 +98,12 @@ module Hulu
         total_count = result_json[:total_count]
         position += request_options[:items_per_page]
         #binding.pry
+      rescue StandardError, Capybara::Webkit::TimeoutError => e
+        Rails.logger.debug([
+          "[#{self.class}#crawl_movies] ERROR: #{e.message}",
+            "position(#{position}); sleep 5sec and Retry"].join("\n"))
+        sleep 5
+        retry
       end while total_count > position
     end
 

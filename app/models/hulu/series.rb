@@ -9,6 +9,12 @@ module Hulu
 
     counter_cache :categories
 
+    def url(relative_path=false)
+      path = "/#{identifier}"
+      path = URI(self.class.parent.top_page) + path if not relative_path
+      path.to_s
+    end
+
     def build_by_api(show, company)
       self.title = show[:name]
       self.description = show[:description]
