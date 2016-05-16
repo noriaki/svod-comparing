@@ -26,9 +26,9 @@ module Netflix
     def login
       unless login?
         get 'https://www.netflix.com/Login?locale=ja-JP'
-        page.first('#email').set self.class.parent.id
-        page.first('#password').set self.class.parent.pw
-        page.first('#login-form-contBtn').click
+        page.first('[name=email]').set self.class.parent.id
+        page.first('[name=password]').set self.class.parent.pw
+        page.first('button[type=submit]').click
         ## not fire. because of react...?
         #if page.all('.profile-name').size > 0
         #  page.find('a', text: 'Machine').click
@@ -49,13 +49,21 @@ module Netflix
 
     private
 
+    def metadata
+      login unless login?
+      page.evaluate_script 'netflix && netflix.contextData || reactApp && reactApp.metadata && reactApp.metadata.models'
+    end
+
     def access_token
       login unless login?
       page.evaluate_script 'netflix.contextData.userInfo.data.authURL'
     end
 
     def api_endpoint
-      page.evaluate_script 'netflix.contextData.services.data.api.path.join("/")'
+      d = metadata["serverDefs"]["data"]
+      d["API_ROOT"] + d["API_BASE_URL"] + '/pathEvaluator/' +
+        d["endpointIdentifiers"]["/pathEvaluator"] +
+        '?withSize=true&materialize=true&model=harris'
     end
 
   end
