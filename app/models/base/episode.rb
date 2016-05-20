@@ -7,6 +7,7 @@ module Base
     field :season_number, type: Integer
     field :title, type: String
     field :description, type: String
+    field :image_url, type: String
     field :caption, type: Boolean, default: false
     field :duration, type: Float
     field :released_at, type: Date

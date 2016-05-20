@@ -35,3 +35,5 @@ gem "headless"
 gem "capybara"
 gem "capybara-webkit"
 gem "whenever", require: false
+gem "http-cookie"
+gem "httpclient"
