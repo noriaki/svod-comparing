@@ -50,22 +50,24 @@ module Netflix
     end
 
     def crawl_contents_and_save!(force=true)
+      puts "Start crawling: #{Time.current}"
       get_genres.each do |genre|
         get_contents(genre[:id]) do |content|
           case content[:type]
           when 'show'
             get_seasons(content[:id]) do |season|
               get_episodes_in_season(season[:id]) do |e|
-                Episode.build_by_api!(self.versionning_date,
+                Episode.build_all_by_api!(self.versionning_date,
                   episode: get_episode(e[:id]), genre: genre, show: content)
               end
             end
           when 'episode', 'movie'
-            Episode.build_by_api!(self.versionning_date,
+            Episode.build_all_by_api!(self.versionning_date,
               episode: get_episode(content[:id]), genre: genre, show: content)
           end
         end
       end
+      puts "Finish crawling: #{Time.current}"
     end
 
     private
@@ -209,6 +211,8 @@ module Netflix
           ["videos", episode_id, "current", "ancestor", "summary"],
           ["videos", episode_id, "seasonList", "current", "summary"],
           ["videos", episode_id, ["requestId", "regularSynopsis"]],
+          ["videos", episode_id,
+            ["subtitles", "audio", "availabilityEndDateNear", "copyright"]],
           ["videos", episode_id, "genres", { from: 0, to: 2 }, ["id","name"]],
           ["videos", episode_id, "genres", "summary"],
           ["videos", episode_id, "tags", { from: 0, to: 9 }, ["id","name"]],
@@ -265,6 +269,7 @@ module Netflix
         description: extract_description(raw),
         duration: raw.dig("runtime").to_f,
         main_duration: raw.dig("creditsOffset").to_f,
+        caption: raw.dig("subtitles").presence || false,
         released_at: Time.zone.local(raw.dig("releaseYear")).to_date,
         image_url: raw.dig("boxarts", "_665x375", "webp", "url"),
         genres: extract_indexed_data(raw.dig("genres"), data.dig("genres")),
