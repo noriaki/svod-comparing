@@ -6,6 +6,9 @@ module Base
 
   class Crawler
 
+    class UnavailableError < StandardError; end
+    class EpisodeIdNotFound < StandardError; end
+
     def initialize(agent, versionning)
       @agent = agent
       @client = HTTPClient.new({

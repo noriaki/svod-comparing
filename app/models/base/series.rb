@@ -6,6 +6,7 @@ module Base
     field :title, type: String
     field :description, type: String
     field :original, type: Boolean
+    field :image_url, type: String
     field :company, type: String
     field :episodes_count, type: Integer, default: 0
     field :stored_at, type: Date
@@ -16,7 +17,7 @@ module Base
 
     index({ company: 1 }, { background: true })
     index({ original: 1 }, { background: true })
-    index({ identifier: 1 }, { background: true, unique: true })
+    index({ identifier: 1 }, { background: true })
     index({ episodes_count: 1 }, { background: true })
     index({ stored_at: -1 }, { background: true })
     index({ last_updated_at: -1 }, { background: true })

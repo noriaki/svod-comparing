@@ -20,12 +20,13 @@ module Netflix
       genre_data = data[:genre] || {}
       self.title = show_data[:title]
       self.original = show_data[:original].present?
+      self.image_url = show_data[:image_url]
       self.stored_at = versionning_date if new_record?
       self.last_updated_at = versionning_date
 
-      category_query = { identifier: genre_data[:id], name: genre_data[:name] }
-      unless self.categories.where(category_query).exists?
-        self.categories << Category.where(category_query).first_or_create!
+      unless self.categories.where(name: genre_data[:name]).exists?
+        self.categories <<
+          Category.where(name: genre_data[:name]).first_or_create!
       end
 
       self
