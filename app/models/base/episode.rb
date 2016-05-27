@@ -17,6 +17,8 @@ module Base
     field :last_updated_at, type: Date
 
     belongs_to :series, index: true
+    has_one :en_sibling, class_name: self.to_s, inverse_of: :ja_sibling
+    belongs_to :ja_sibling, class_name: self.to_s, inverse_of: :en_sibling, index: true
 
     index({ episode_number: 1 }, { background: true })
     index({ season_number: 1 }, { background: true })
@@ -33,6 +35,8 @@ module Base
     index({ _type: 1, content_type: 1 }, { background: true })
     index({ _type: 1, stored_at: -1 }, { background: true })
     index({ _type: 1, last_updated_at: -1 }, { background: true })
+    index({ _type: 1, series_id: -1 }, { background: true })
+    index({ _type: 1, ja_sibling_id: -1 }, { background: true })
 
     validates_presence_of :identifier
     validates_presence_of :title

@@ -25,9 +25,9 @@ module Netflix
       self.title = data[:title]
       self.description = data[:description]
       self.image_url = data[:image_url]
-      self.caption = data[:closed_captions].present?
+      self.caption = data[:caption].present?
       self.duration = data[:duration]
-      self.released_at = nil
+      self.released_at = data[:released_at]
       self.ppv = false
       self.content_type = data[:type]
       self.stored_at = versionning_date if new_record?
@@ -37,9 +37,22 @@ module Netflix
 
     class << self
 
+      def build_all_by_api!(versionning_date, data, force=true)
+        episode = data[:episode] || {}
+        caption_data = episode.delete :caption
+        episode_ja =
+          Episode.build_by_api!(versionning_date, data.merge(episode: episode))
+        if caption_data.is_a? Array
+          episode_en = Episode.build_by_api(versionning_date, data.merge(
+              episode: episode.merge(id: "#{episode[:id]}_en", caption: true)))
+          episode_en.ja_sibling = episode_ja
+          episode_en.series.save! && episode_en.save!
+        end
+      end
+
       def build_by_api!(versionning_date, data, force=true)
         e = build_by_api(versionning_date, data, force)
-        e.series.save! && e.save!
+        (e.series.save! && e.save!) ? e : nil
       end
 
       def build_by_api(versionning_date, data, force=true)
