@@ -6,8 +6,16 @@ module Base
 
   class Crawler
 
+    class UnavailableError < StandardError; end
+    class EpisodeIdNotFound < StandardError; end
+
     def initialize(agent, versionning)
       @agent = agent
+      @client = HTTPClient.new({
+          agent_name: Agent.name, default_header: {
+            "Content-Type" => "application/json"
+          }
+        })
       @versionning = versionning
       @versionning_date = versionning.stored_at
     end
@@ -21,6 +29,7 @@ module Base
 
       def crawl!(date=Time.current.to_date, force=true)
         klass = self
+        date = Time.current.to_date if date.nil?
         versionning = "#{klass.parent}::StoredVersion".constantize.
           where(stored_at: date).first_or_create
         Agent.run(display: klass.parent.display_port) do
