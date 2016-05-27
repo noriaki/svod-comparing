@@ -7,7 +7,7 @@ module Base
 
     has_and_belongs_to_many :series, index: true, autosave: true
 
-    index({ name: 1 }, { background: true, unique: true })
+    index({ name: 1 }, { background: true })
     index({ series_count: 1 }, { background: true })
     index({ _type: 1, name: 1 }, { background: true, unique: true })
     index({ _type: 1, series_count: 1 }, { background: true })

@@ -7,6 +7,7 @@ module Base
     field :season_number, type: Integer
     field :title, type: String
     field :description, type: String
+    field :image_url, type: String
     field :caption, type: Boolean, default: false
     field :duration, type: Float
     field :released_at, type: Date
@@ -16,10 +17,12 @@ module Base
     field :last_updated_at, type: Date
 
     belongs_to :series, index: true
+    has_one :en_sibling, class_name: self.to_s, inverse_of: :ja_sibling
+    belongs_to :ja_sibling, class_name: self.to_s, inverse_of: :en_sibling, index: true
 
     index({ episode_number: 1 }, { background: true })
     index({ season_number: 1 }, { background: true })
-    index({ identifier: 1 }, { background: true, unique: true })
+    index({ identifier: 1 }, { background: true })
     index({ caption: 1 }, { background: true })
     index({ content_type: 1 }, { background: true })
     index({ stored_at: -1 }, { background: true })
@@ -32,6 +35,8 @@ module Base
     index({ _type: 1, content_type: 1 }, { background: true })
     index({ _type: 1, stored_at: -1 }, { background: true })
     index({ _type: 1, last_updated_at: -1 }, { background: true })
+    index({ _type: 1, series_id: -1 }, { background: true })
+    index({ _type: 1, ja_sibling_id: -1 }, { background: true })
 
     validates_presence_of :identifier
     validates_presence_of :title
