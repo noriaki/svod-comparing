@@ -20,7 +20,7 @@ module Base
 
     index({ episode_number: 1 }, { background: true })
     index({ season_number: 1 }, { background: true })
-    index({ identifier: 1 }, { background: true, unique: true })
+    index({ identifier: 1 }, { background: true })
     index({ caption: 1 }, { background: true })
     index({ content_type: 1 }, { background: true })
     index({ stored_at: -1 }, { background: true })

@@ -6,7 +6,7 @@ module Netflix
     belongs_to :series, index: true, counter_cache: true
 
     def url(relative_path=false)
-      path = "/watch/#{identifier}"
+      path = "/title/#{identifier}"
       path = URI(self.class.parent.top_page) + path if not relative_path
       path.to_s
     end
@@ -37,11 +37,20 @@ module Netflix
 
     class << self
 
+      def build_by_api!(versionning_date, data, force=true)
+        e = build_by_api(versionning_date, data, force)
+        e.series.save! && e.save!
+      end
+
       def build_by_api(versionning_date, data, force=true)
+        show_data = data[:show] || {}
         episode_data = data[:episode] || {}
         episode = self.where(identifier: episode_data[:id]).first_or_initialize
         if force || episode.new_record?
           episode.build_by_api(versionning_date, episode_data)
+          episode.series ||=
+            Series.where(identifier: show_data[:id]).first_or_initialize
+          episode.series.build_by_api(versionning_date, data)
         end
         episode
       end
