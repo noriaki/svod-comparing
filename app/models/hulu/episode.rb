@@ -57,6 +57,26 @@ module Hulu
         episode
       end
 
+      def set_relations!
+        self.where(caption: true).each do |episode|
+          episode_ja =
+            if episode.movie?
+              episode.series.episodes.where(caption: false).first
+            elsif episode.tv?
+              episode.series.episodes.where({
+                caption: false,
+                episode_number: episode.episode_number,
+                season_number: episode.season_number
+              }).first
+            else
+              nil
+            end
+          episode.versionless do |ep|
+            ep.update_attributes ja_sibling_id: episode_ja.id
+          end if episode_ja.present?
+        end
+      end
+
     end
   end
 end
