@@ -6,7 +6,7 @@ module Netflix
     belongs_to :series, index: true, counter_cache: true
 
     def url(relative_path=false)
-      path = "/title/#{identifier}"
+      path = "/title/#{identifier.sub('_en','')}"
       path = URI(self.class.parent.top_page) + path if not relative_path
       path.to_s
     end
