@@ -53,6 +53,7 @@ module Hulu
     def crawl_contents_and_save!(force=true, past=true)
       crawl_movies_and_save!(force)
       crawl_episodes_and_save!(force, past)
+      Episode.set_relations!
     end
 
     def crawl_movies_and_save!(force=true)
