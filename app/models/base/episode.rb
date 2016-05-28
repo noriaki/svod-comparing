@@ -40,5 +40,9 @@ module Base
 
     validates_presence_of :identifier
     validates_presence_of :title
+
+    scope :main, -> { where(ja_sibling_id: nil) }
+    scope :feature, ->(l=300) { where(:duration.gte => l.seconds) }
+
   end
 end
