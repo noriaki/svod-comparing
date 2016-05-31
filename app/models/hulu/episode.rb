@@ -78,5 +78,15 @@ module Hulu
       end
 
     end
+
+    private
+    def normalize_text
+      table = {
+        "\uFF65" => "\u30FB" # centered dot
+      }
+      regexp = Regexp.new "[#{table.keys.join('')}]"
+      self[:title] = self[:title].gsub(regexp, table)
+      self[:description] = self[:description].gsub(regexp, table)
+    end
   end
 end
