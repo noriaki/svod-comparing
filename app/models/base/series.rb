@@ -12,9 +12,6 @@ module Base
     field :stored_at, type: Date
     field :last_updated_at, type: Date
 
-    has_and_belongs_to_many :categories, index: true, autosave: true
-    has_many :episodes
-
     index({ company: 1 }, { background: true })
     index({ original: 1 }, { background: true })
     index({ identifier: 1 }, { background: true })
