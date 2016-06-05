@@ -37,3 +37,7 @@ gem "capybara-webkit"
 gem "whenever", require: false
 gem "http-cookie"
 gem "httpclient"
+
+gem "trigram"
+
+gem "unicode"

@@ -4,6 +4,13 @@ module Hulu
     include Mongoid::Random
 
     belongs_to :series, index: true, counter_cache: true
+    belongs_to :unified, {
+      index: true, class_name: "::#{leaf_class_name}",
+      inverse_of: root_class_name.underscore.to_sym
+    }
+
+    scope :movie, -> { where content_type: "feature_film" }
+    scope :tv, -> { where content_type: "episode" }
 
     def url(relative_path=false)
       path = "/watch/#{identifier}"
@@ -79,14 +86,5 @@ module Hulu
 
     end
 
-    private
-    def normalize_text
-      table = {
-        "\uFF65" => "\u30FB" # centered dot
-      }
-      regexp = Regexp.new "[#{table.keys.join('')}]"
-      self[:title] = self[:title].gsub(regexp, table)
-      self[:description] = self[:description].gsub(regexp, table)
-    end
   end
 end
