@@ -2,6 +2,9 @@ module Base
   class Episode
     include Mongoid::Document
 
+    include Mongoid::Random
+    include Mongoid::BatchFindable
+
     include Aggregator::Comparable
 
     field :identifier, type: String

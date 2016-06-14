@@ -2,6 +2,8 @@ module Base
   class Series
     include Mongoid::Document
 
+    include Mongoid::Random
+
     include Aggregator::Comparable
 
     field :identifier, type: String
