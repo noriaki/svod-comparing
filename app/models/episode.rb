@@ -4,6 +4,7 @@ class Episode
 
   include Mongoid::Random
   include Mongoid::PartFinder
+  include Mongoid::BatchFindable
 
   include Aggregator::Episode
 
