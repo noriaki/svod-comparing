@@ -2,6 +2,8 @@ module Base
   class Series
     include Mongoid::Document
 
+    include Aggregator::Comparable
+
     field :identifier, type: String
     field :title, type: String
     field :description, type: String
