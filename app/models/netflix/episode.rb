@@ -3,6 +3,8 @@ module Netflix
     include Mongoid::Versioning
     include Mongoid::Random
 
+    prepend Netflix::IdentifierWithNormalizeMultisub
+
     belongs_to :series, index: true, counter_cache: true
     belongs_to :unified, {
       index: true, class_name: "::#{leaf_class_name}",
@@ -11,11 +13,6 @@ module Netflix
 
     scope :movie, -> { where content_type: "movie" }
     scope :tv, -> { where content_type: "episode" }
-
-    def identifier_with_normalize
-      identifier_without_normalize.sub('_en','')
-    end
-    alias_method_chain :identifier, :normalize
 
     def url(relative_path=false)
       path = "/title/#{identifier}"
@@ -81,5 +78,6 @@ module Netflix
       end
 
     end
+
   end
 end
