@@ -25,23 +25,49 @@ module Base
     has_one :en_sibling, class_name: self.to_s, inverse_of: :ja_sibling
     belongs_to :ja_sibling, class_name: self.to_s, inverse_of: :en_sibling, index: true
 
-    index({ episode_number: 1 }, { background: true })
-    index({ season_number: 1 }, { background: true })
-    index({ identifier: 1 }, { background: true })
-    index({ caption: 1 }, { background: true })
-    index({ content_type: 1 }, { background: true })
-    index({ stored_at: -1 }, { background: true })
-    index({ last_updated_at: -1 }, { background: true })
-    index({ _type: 1, episode_number: 1 }, { background: true })
-    index({ _type: 1, season_number: 1 }, { background: true })
-    index({ _type: 1, identifier: 1 }, { background: true, unique: true })
-    index({ _type: 1, series_id: 1 }, { background: true })
-    index({ _type: 1, caption: 1 }, { background: true })
-    index({ _type: 1, content_type: 1 }, { background: true })
-    index({ _type: 1, stored_at: -1 }, { background: true })
-    index({ _type: 1, last_updated_at: -1 }, { background: true })
-    index({ _type: 1, series_id: -1 }, { background: true })
-    index({ _type: 1, ja_sibling_id: -1 }, { background: true })
+    with_options background: true do |d|
+      d.index({ episode_number: 1 }, {})
+      d.index({ season_number: 1 }, {})
+      d.index({ identifier: 1 }, {})
+      d.index({ caption: 1 }, {})
+      d.index({ duration: -1 }, {})
+      d.index({ content_type: 1 }, {})
+      d.index({ stored_at: -1 }, {})
+      d.index({ last_updated_at: -1 }, {})
+    end
+    { _type: 1 }.tap do |f|
+      { background: true }.tap do |o|
+        index f.reverse_merge(_id: 1), o.reverse_merge(unique: true)
+        index f.reverse_merge(episode_number: 1), o
+        index f.reverse_merge(season_number: 1), o
+        index f.reverse_merge(identifier: 1), o.reverse_merge(unique: true)
+        index f.reverse_merge(series_id: 1), o
+        index f.reverse_merge(caption: 1), o
+        index f.reverse_merge(duration: -1), o
+        index f.reverse_merge(released_at: -1), o
+        index f.reverse_merge(content_type: 1), o
+        index f.reverse_merge(stored_at: -1), o
+        index f.reverse_merge(last_updated_at: -1), o
+        index f.reverse_merge(ja_sibling_id: -1), o
+        index f.reverse_merge(unified_id: -1), o
+        f.reverse_merge(
+          #identifier: 1,
+          duration: -1, ja_sibling_id: -1, content_type: 1
+        ).tap do |mf|
+          index mf, o
+          index mf.reverse_merge(
+            episode_number: 1, season_number: 1
+          ), o.reverse_merge(name: "aggregation_tv_search")
+          index mf.reverse_merge(
+            released_at: -1), o.reverse_merge(name: "aggregation_movie_searh")
+          index mf.reverse_merge(
+            last_updated_at: -1
+          ), o.reverse_merge(name: "last_updated_at-aggregation")
+          index mf.reverse_merge(
+            unified_id: -1), o.reverse_merge(name: "unified_id-aggregation")
+        end
+      end
+    end
 
     validates_presence_of :identifier
     validates_presence_of :title

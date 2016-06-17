@@ -22,6 +22,7 @@ module Base
     index({ episodes_count: 1 }, { background: true })
     index({ stored_at: -1 }, { background: true })
     index({ last_updated_at: -1 }, { background: true })
+    index({ _type: 1, _id: 1 }, { background: true, unique: true })
     index({ _type: 1, company: 1 }, { background: true })
     index({ _type: 1, original: 1 }, { background: true })
     index({ _type: 1, identifier: 1 }, { background: true, unique: true })

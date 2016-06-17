@@ -30,16 +30,18 @@ class Episode
   field :stored_at,       type: Date
   field :last_updated_at, type: Date
 
-  index({ identifier: 1 }, { background: true, unique: true })
-  index({ slug: 1 }, { background: true, unique: true })
-  index({ identifiers: 1 }, { background: true, unique: true })
+  with_options background: true, unique: true do |d|
+    d.index({ identifier: 1 }, {})
+    d.index({ slug: 1 }, {})
+    d.index({ identifiers: 1 }, {})
+  end
 
   @@services = Rails.application.secrets.accounts.keys.map(&:to_sym)
   mattr_reader :services
   @@priority = {
     identifier: :fixed,
     slug: :fixed,
-    identifiers: :fixed,
+    identifiers: :functional,
     content_type: :fixed,
     episode_number: [ :n, :h ],
     season_number: [ :n, :h ],
@@ -55,6 +57,7 @@ class Episode
   }
   mattr_reader :priority
 
+  belongs_to :series, index: true, counter_cache: true
   @@services.each do |service|
     has_one service, {
       class_name: "#{service.to_s.camelize}::Episode",
@@ -103,11 +106,14 @@ class Episode
       build_by_episodes!(:movie, *episodes)
     end
 
+    def build_tv_by_episodes!(*episodes)
+      build_by_episodes!(:tv, *episodes)
+    end
+
     def build_by_episodes!(type, *episodes)
       episode = (
         self.fix_ids_in(episodes).first ||
         self.any_ids_in(episodes).first_or_initialize)
-      episode.identifiers = extract_ids(episodes)
       episode.content_type = type.to_s
       episode.build_by_episodes!(episodes)
       episode
