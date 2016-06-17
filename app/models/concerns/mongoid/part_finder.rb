@@ -4,9 +4,9 @@ module Mongoid
 
     class_methods do
       def extract_ids(*ids)
-        (ids[0].is_a?(Array) ? ids[0] : ids).map do |id|
+        (ids[0].is_a?(Array) ? ids[0] : ids).map{|id|
           id.is_a?(String) ? id : id.id_with_prefix
-        end
+        }.sort
       end
 
       def generate_identifier(ids)
