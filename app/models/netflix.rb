@@ -50,7 +50,6 @@ module Netflix
     end
 
     def crawl_contents_and_save!(force=true)
-      puts "Start crawling: #{Time.current}"
       get_genres.each do |genre|
         get_contents(genre[:id]) do |content|
           case content[:type]
@@ -67,7 +66,6 @@ module Netflix
           end
         end
       end
-      puts "Finish crawling: #{Time.current}"
     end
 
     private
