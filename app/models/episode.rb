@@ -11,7 +11,7 @@ class Episode
   # [mutable] save when save callback, see also :identifiers
   field :identifier,      type: String
 
-  # [immutable] save when create callback, identifier[0..5] (6bytes)
+  # [immutable] save when create callback, identifier.to_i(16).base62_encode
   field :slug,            type: String
 
   # prefix -> { h: hulu, n: netflix, d: dtv, a: amazon, g: gyao }
@@ -65,11 +65,22 @@ class Episode
     class_name: "Base::Episode", inverse_of: :unified, dependent: :nullify
   }
 
+  scope :movie, -> { where(content_type: "movie") }
+  scope :tv, -> { where(content_type: "tv") }
+
   before_validation :set_identifier
   before_create :set_slug
 
   def to_param; slug; end
   def content_type; self[:content_type].inquiry; end
+
+  def identifier_to_slug
+    identifier.to_i(16).base62_encode
+  end
+
+  def slug_to_identifier
+    slug.base62_decode.to_s(16)
+  end
 
   def build_by_episodes(episodes)
     episodes = episodes.map{|e| [e.initial_letter.to_sym, e] }.to_h
@@ -113,12 +124,8 @@ class Episode
     true
   end
 
-  def generate_slug(id)
-    id[0,6]
-  end
-
   def set_slug
-    self[:slug] = generate_slug(self[:identifier])
+    self[:slug] = identifier_to_slug
     true
   end
 end
