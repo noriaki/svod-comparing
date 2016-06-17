@@ -4,8 +4,9 @@ module Netflix
     include Mongoid::Random
     include Mongoid::MagicCounterCache
 
-    has_and_belongs_to_many :categories, index: true, autosave: true
+    has_and_belongs_to_many :categories, index: true
     has_many :episodes
+    belongs_to :unified, class_name: "::Series", inverse_of: self.parent.to_s.underscore.to_sym, index: true
 
     counter_cache :categories
 

@@ -4,6 +4,13 @@ module Hulu
     include Mongoid::Random
 
     belongs_to :series, index: true, counter_cache: true
+    belongs_to :unified, {
+      index: true, class_name: "::#{leaf_class_name}",
+      inverse_of: root_class_name.underscore.to_sym
+    }
+
+    scope :movie, -> { where content_type: "feature_film" }
+    scope :tv, -> { where content_type: "episode" }
 
     def url(relative_path=false)
       path = "/watch/#{identifier}"
@@ -78,5 +85,6 @@ module Hulu
       end
 
     end
+
   end
 end
