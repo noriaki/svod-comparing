@@ -45,6 +45,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    base62 (1.0.0)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -222,6 +223,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  base62
   better_errors
   byebug
   capybara
@@ -256,4 +258,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.12.4
+   1.12.5
