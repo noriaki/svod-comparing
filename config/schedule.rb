@@ -26,10 +26,6 @@ env :MAILTO, 'uchiyama.noriaki+cron.idcf@gmail.com'
 set :output, "log/cron.log"
 set :environment, :production
 
-every 1.day, at: '6:30 am' do
-  runner "Hulu::Crawler.crawl!"
-end
-
 every 1.day, at: '3:00 am' do
-  runner "Netflix::Crawler.crawl!"
+  runner "Netflix::Crawler.crawl!; Hulu::Crawler.crawl!; Episode.aggregate_all!;"
 end
