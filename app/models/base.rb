@@ -29,6 +29,7 @@ module Base
 
       def crawl!(date=Time.current.to_date, force=true)
         klass = self
+        puts "Start crawling(#{klass.parent}): #{Time.current}"
         date = Time.current.to_date if date.nil?
         versionning = "#{klass.parent}::StoredVersion".constantize.
           where(stored_at: date).first_or_create
@@ -39,6 +40,7 @@ module Base
           #binding.pry
           force ? crawler.crawl_contents_and_save! : crawler.crawl_contents_and_save
         end
+        puts "Finish crawling: #{Time.current}"
       end
 
     end
