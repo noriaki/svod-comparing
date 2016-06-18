@@ -7,9 +7,6 @@ module Hulu
   @@pw = Rails.application.secrets.accounts["hulu"]["pw"]
   mattr_reader :id, :pw
 
-  @@display_port = 57
-  mattr_reader :display_port
-
   @@top_page = "http://www.hulu.jp/"
   mattr_reader :top_page
 
@@ -18,6 +15,12 @@ module Hulu
 
   class Crawler < Base::Crawler
     @@top_page = self.parent.top_page
+
+    class << self
+      def display_num
+        super(3)
+      end
+    end
 
     def login?
       get @@top_page
