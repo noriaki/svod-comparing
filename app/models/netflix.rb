@@ -7,14 +7,17 @@ module Netflix
   @@pw = Rails.application.secrets.accounts["netflix"]["pw"]
   mattr_reader :id, :pw
 
-  @display_port = 67
-  mattr_reader :display_port
-
   @@top_page = "http://www.netflix.com/jp/"
   mattr_reader :top_page
 
   class Crawler < Base::Crawler
     @@top_page = self.parent.top_page
+
+    class << self
+      def display_num
+        super(4)
+      end
+    end
 
     def login?
       get @@top_page if URI(page.current_url).host != URI(@@top_page).host
@@ -27,9 +30,6 @@ module Netflix
         page.first('[name=email]').set self.class.parent.id
         unless page.has_css? 'form:first-of-type [name=password]'
           page.first('button[type=submit]').click
-          wait_until do |pg|
-            pg.has_css? 'form:first-of-type [name=password]'
-          end
         end
         page.first('[name=password]').set self.class.parent.pw
         page.first('button[type=submit]').click
@@ -335,12 +335,6 @@ module Netflix
         Rails.logger.debug { "#{base}: query: #{query}, #{object}" }
       }
       JSON.parse(res.body)["value"]
-    end
-
-    def wait_until
-      Timeout.timeout(5.seconds) do
-        loop until yield page
-      end
     end
 
   end
