@@ -30,8 +30,14 @@ module Netflix
         page.first('[name=email]').set self.class.parent.id
         unless page.has_css? 'form:first-of-type [name=password]'
           page.first('button[type=submit]').click
+          WaitUtil.wait_for_condition(
+            "logged-in form loading", verbose: true,
+            timeout_sec: 10.seconds, delay_sec: 2.5.seconds
+          ) do
+            page.has_css?('form:first-of-type [name=password]')
+          end
         end
-        page.first('[name=password]').set self.class.parent.pw
+        page.first('form:first-of-type [name=password]').set self.class.parent.pw
         page.first('button[type=submit]').click
         ## not fire. because of react...?
         #if page.all('.profile-name').size > 0
