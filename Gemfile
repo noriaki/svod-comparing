@@ -42,3 +42,4 @@ gem "trigram"
 gem "base62"
 
 gem "unicode"
+gem "waitutil"
