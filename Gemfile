@@ -48,3 +48,6 @@ group :development, :test do
   gem "unicorn"
   gem "unicorn-rails"
 end
+
+gem "hypernova"
+gem "browserify-rails"
