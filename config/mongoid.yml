@@ -3,13 +3,15 @@ development:
   clients:
     # Defines the default client. (required)
     default:
+      uri: <%= Rails.application.secrets.mongodb %>
+
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: compare_hulu_netflix_dtv_development
+      #database: compare_hulu_netflix_dtv_development
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
-      hosts:
-        - localhost:27017
+      #hosts:
+      #  - localhost:27017
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -125,19 +127,10 @@ development:
 
     # Ensure all times are UTC in the app side. (default: false)
     # use_utc: false
-test:
-  clients:
-    default:
-      database: compare_hulu_netflix_dtv_test
-      hosts:
-        - localhost:27017
-      options:
-        read:
-          mode: :primary
-        max_pool_size: 1
 production:
   clients:
     default:
-      database: compare_hulu_netflix_dtv_production
-      hosts:
-        - localhost:27017
+      uri: <%= Rails.application.secrets.mongodb %>
+      #database: compare_hulu_netflix_dtv_production
+      #hosts:
+      #  - localhost:27017
