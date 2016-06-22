@@ -43,3 +43,8 @@ gem "base62"
 
 gem "unicode"
 gem "waitutil"
+
+group :development, :test do
+  gem "unicorn"
+  gem "unicorn-rails"
+end
