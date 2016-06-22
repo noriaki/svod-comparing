@@ -84,3 +84,4 @@ pickle-email-*.html
 *~
 
 /config/secrets.yml
+/node_modules/
