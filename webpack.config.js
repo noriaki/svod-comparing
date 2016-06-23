@@ -4,14 +4,15 @@ const path = require('path');
 
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugint');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const devtool = DEBUG ? "#inline-source-map" : '#eval';
 const fileName = DEBUG ? '[name]' : '[name]-[hash]';
-const publicPath = Debug ? 'http://localhost:3500/assets/' : '/assets/';
+const publicPath = DEBUG ? 'http://localhost:3500/assets/' : '/assets/';
 
 const entries = {
-  application: ['./app/frontend/javascripts/application.js']
+  //application: ['./app/frontend/javascripts/application.js']
+  application: ['./app/assets/javascripts/application.js']
 };
 
 const plugins = [
@@ -84,7 +85,7 @@ module.exports = {
   },
   devServer: {
     headers: {
-      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Origin": "http://localhost:8081",
       "Access-Control-Allow-Credentials": "true"
     }
   }

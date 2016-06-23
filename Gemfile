@@ -50,4 +50,3 @@ group :development, :test do
 end
 
 gem "hypernova"
-gem "browserify-rails"
