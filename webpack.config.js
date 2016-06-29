@@ -11,8 +11,7 @@ const fileName = DEBUG ? '[name]' : '[name]-[hash]';
 const publicPath = DEBUG ? 'http://localhost:3500/assets/' : '/assets/';
 
 const entries = {
-  //application: ['./app/frontend/javascripts/application.js']
-  application: ['./app/assets/javascripts/application.js']
+  application: ['./app/frontend/javascripts/application.jsx']
 };
 
 const plugins = [
@@ -41,9 +40,9 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel'
       },
       {
         test: /\.css$/,

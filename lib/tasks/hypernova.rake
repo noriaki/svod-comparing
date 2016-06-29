@@ -1,12 +1,12 @@
 namespace :hypernova do
   desc "Start hypernova server"
   task start: :environment do
-    server_path =  Rails.root.join "lib/hypernova.js"
+    server_path =  Rails.root.join "lib/hypernova.jsx"
     logfile_path = Rails.root.join "log/hypernova-server-#{Rails.env}.log"
     pid = spawn(
-      { "NODE_ENV" => Rails.env },         # ENV
-      "node #{server_path}",               # Command
-      [:out, :err] => [logfile_path, "a"]  # File redirect
+      { "NODE_ENV" => Rails.env },                   # ENV
+      "node_modules/.bin/babel-node #{server_path}", # Command
+      [:out, :err] => [logfile_path, "a"]            # File redirect
     )
     Process.detach(pid)
     File.write(hypernova_pid_path, pid)
