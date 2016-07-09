@@ -40,3 +40,7 @@ Rails.application.configure do
     "[#{severity}]#{datetime}: #{progname} : #{msg}\n"
   end
 end
+
+require 'hypernova'
+require 'hypernova/plugins/development_mode_plugin'
+Hypernova.add_plugin! DevelopmentMdoePlugin.new
