@@ -43,4 +43,4 @@ end
 
 require 'hypernova'
 require 'hypernova/plugins/development_mode_plugin'
-Hypernova.add_plugin! DevelopmentMdoePlugin.new
+Hypernova.add_plugin! DevelopmentModePlugin.new
