@@ -27,6 +27,7 @@ module Hulu
       page.evaluate_script 'Hulu.Behaviors.isLoggedIn()'
     end
 
+    # overrided from Base::Crawler
     def login
       get @@top_page
       unless login?
@@ -49,10 +50,12 @@ module Hulu
       url
     end
 
+    # overrided from Base::Crawler
     def crawl_contents_and_save
       crawl_contents_and_save!(false)
     end
 
+    # overrided from Base::Crawler
     def crawl_contents_and_save!(force=true, past=true)
       crawl_movies_and_save!(force)
       crawl_episodes_and_save!(force, past)

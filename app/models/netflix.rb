@@ -24,6 +24,7 @@ module Netflix
       metadata.dig("userInfo", "data", "membershipStatus") == "CURRENT_MEMBER"
     end
 
+    # overrided from Base::Crawler
     def login
       unless login?
         get 'https://www.netflix.com/Login?locale=ja-JP'
@@ -51,10 +52,12 @@ module Netflix
       url
     end
 
+    # overrided from Base::Crawler
     def crawl_contents_and_save
       crawl_contents_and_save!(false)
     end
 
+    # overrided from Base::Crawler
     def crawl_contents_and_save!(force=true)
       get_genres.each do |genre|
         get_contents(genre[:id]) do |content|
