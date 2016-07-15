@@ -11,6 +11,7 @@ module Base
     field :description, type: String
     field :original, type: Boolean
     field :image_url, type: String
+    field :art_image_url, type: String
     field :company, type: String
     field :episodes_count, type: Integer, default: 0
     field :stored_at, type: Date

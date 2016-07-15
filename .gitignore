@@ -87,3 +87,4 @@ pickle-email-*.html
 /config/secrets.yml
 /node_modules
 /npm-debug.log
+/db/api/

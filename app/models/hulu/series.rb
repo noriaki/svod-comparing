@@ -19,6 +19,9 @@ module Hulu
     def build_by_api(show, company)
       self.title = show[:name]
       self.description = show[:description]
+      self.original = false
+      self.image_url = URI(show[:thumbnail_url]).to_s
+      self.art_image_url = URI(show[:key_art_url]).to_s
       self.company = company[:name]
       show[:genres].split('|').each do |genre|
         unless self.categories.where(name: genre).exists?

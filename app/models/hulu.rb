@@ -65,6 +65,7 @@ module Hulu
     def crawl_movies_and_save!(force=true)
       crawl_movies(access_token) do |data|
         data[:versionning_date] = self.versionning_date
+        #binding.pry
         Episode.build_by_api! data, force
       end
     end

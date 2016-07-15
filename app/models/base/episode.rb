@@ -26,6 +26,7 @@ module Base
     belongs_to :ja_sibling, class_name: self.to_s, inverse_of: :en_sibling, index: true
 
     with_options background: true do |d|
+      d.index({ _id: 1 }, { unique: true })
       d.index({ episode_number: 1 }, {})
       d.index({ season_number: 1 }, {})
       d.index({ identifier: 1 }, {})

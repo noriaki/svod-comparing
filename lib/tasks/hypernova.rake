@@ -4,9 +4,10 @@ namespace :hypernova do
     server_path =  Rails.root.join "lib/hypernova.jsx"
     logfile_path = Rails.root.join "log/hypernova-server-#{Rails.env}.log"
     pid = spawn(
-      { "NODE_ENV" => Rails.env },                      # ENV
-      "node_modules/.bin/babel-node #{server_path}",    # Command
-      pgroup: true, [:out, :err] => [logfile_path, "a"] # File redirect
+      { "NODE_ENV" => Rails.env },                   # ENV
+      "node_modules/.bin/babel-node #{server_path}", # Command
+      pgroup: true,                                  # Enable killing
+      [:out, :err] => [logfile_path, "a"]            # Logfile redirect
     )
     File.write(hypernova_pid_path, pid)
     true

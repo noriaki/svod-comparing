@@ -31,6 +31,7 @@ module Hulu
       self.season_number = data[:season_number]
       self.title = data[:title]
       self.description = data[:description]
+      self.image_url = normalize_image_url(data[:thumbnail_url])
       self.caption = data[:closed_captions].present?
       self.duration = data[:duration]
       self.released_at = data[:original_premiere_date]
@@ -84,6 +85,12 @@ module Hulu
         end
       end
 
+    end
+
+    private
+
+    def normalize_image_url(image_url)
+      image_url.blank? ? nil : URI(image_url).to_s.sub('145x80', '220x124')
     end
 
   end
